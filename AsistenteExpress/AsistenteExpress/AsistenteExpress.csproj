@@ -165,6 +165,12 @@
     <Content Include="Scripts\utils\SweetAlert2\dist\sweetalert2.js" />
     <Content Include="Scripts\utils\SweetAlert2\dist\sweetalert2.min.css" />
     <Content Include="Scripts\utils\SweetAlert2\dist\sweetalert2.min.js" />
+    <Content Include="SQLs\Archivos.sql" />
+    <Content Include="SQLs\Campanias.sql" />
+    <Content Include="SQLs\Motivos.sql" />
+    <Content Include="SQLs\Perfiles.sql" />
+    <Content Include="SQLs\Procesos.sql" />
+    <Content Include="SQLs\Submotivos.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

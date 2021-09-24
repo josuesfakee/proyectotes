@@ -1,0 +1,21 @@
+USE [AsistentExpress]
+GO
+
+/****** Object:  Table [dbo].[Motivos]    Script Date: 23/09/2021 11:04:58 p. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Motivos](
+	[Id] [int] NOT NULL,
+	[Descripcion] [nvarchar](100) NOT NULL,
+	[Estatus] [bit] NOT NULL,
+ CONSTRAINT [PK_Motivos] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
