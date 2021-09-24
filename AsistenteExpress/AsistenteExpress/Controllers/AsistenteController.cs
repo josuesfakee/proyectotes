@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace AsistenteExpress.Controllers
 {
+    //Just test
     public class AsistenteController : Controller
     {
         // GET: Asistente
