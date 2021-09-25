@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsistenteExpress.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,8 +10,10 @@ namespace AsistenteExpress.Controllers
     //Que pepsi
     public class HomeController : Controller
     {
+        private EdenredContext _con = new EdenredContext();
         public ActionResult Index()
         {
+
             return View();
         }
 

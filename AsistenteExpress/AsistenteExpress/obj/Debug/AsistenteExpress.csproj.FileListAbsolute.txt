@@ -51,6 +51,8 @@ C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bi
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\roslyn\VBCSCompiler.exe
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\Antlr3.Runtime.dll
+C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\EntityFramework.dll
+C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\EntityFramework.SqlServer.dll
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\Newtonsoft.Json.dll
@@ -62,6 +64,8 @@ C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bi
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\System.Web.WebPages.dll
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\System.Web.WebPages.Razor.dll
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\WebGrease.dll
+C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\EntityFramework.xml
+C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\EntityFramework.SqlServer.xml
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\System.Web.Helpers.xml
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\System.Web.Mvc.xml
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\System.Web.Optimization.xml
@@ -84,7 +88,3 @@ C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\ob
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\obj\Debug\AsistenteExpress.csproj.CopyComplete
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\obj\Debug\AsistenteExpress.dll
 C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\obj\Debug\AsistenteExpress.pdb
-C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\EntityFramework.dll
-C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\EntityFramework.SqlServer.dll
-C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\EntityFramework.xml
-C:\Users\weiss\Documents\GitHub\proyectotes\AsistenteExpress\AsistenteExpress\bin\EntityFramework.SqlServer.xml
