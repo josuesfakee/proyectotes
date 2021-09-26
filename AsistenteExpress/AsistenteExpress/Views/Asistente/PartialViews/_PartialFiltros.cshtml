@@ -1,0 +1,45 @@
+﻿
+@model AsistenteExpress.Models.Proceso
+
+<div class="row bordes" style="padding: 10px">
+    <div class="row ">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <div class="col-md-4 espacio">
+                    <label>Campañas:</label>
+                </div>
+                <div class="col-md-11 espacio">
+                    @Html.DropDownListFor(m => m.Campañas, new SelectList(Model.Campañas, "Value", "Text"), "-SELECCIONE-",
+                    new { @class = "form-control", @id = "Id"/*, @onchange = "prueba()"*/ })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-4 espacio">
+                    <label>Perfiles:</label>
+                </div>
+                <div class="col-md-11 espacio">
+                    @Html.DropDownListFor(m => m.Perfiles, new SelectList(Model.Perfiles, "Value", "Text"), "-SELECCIONE-",
+                    new { @class = "form-control", @id = "Id" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-4 espacio">
+                    <label>Motivos:</label>
+                </div>
+                <div class="col-md-11 espacio">
+                    @Html.DropDownListFor(m => m.Motivos, new SelectList(Model.Motivos, "Value", "Text"), "-SELECCIONE-",
+                    new { @class = "form-control", @id = "Id" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-6 espacio">
+                    <label>Sub Motivos:</label>
+                </div>
+                <div class="col-md-11 espacio">
+                    @Html.DropDownListFor(m => m.SubMotivos, new SelectList(Model.SubMotivos, "Value", "Text"), "-SELECCIONE-",
+                    new { @class = "form-control", @id = "Id" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
