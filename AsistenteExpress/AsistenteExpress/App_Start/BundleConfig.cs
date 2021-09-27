@@ -25,6 +25,14 @@ namespace AsistenteExpress
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/Kendo").Include(
+                      "~/Content/Kendo/kendo.common.min.css",
+                      "~/Content/Kendo/kendo.default.min.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Kendo").Include(
+                     "~/Scripts/Kendo/kendo.all.min.js",
+                     "~/Scripts/Kendo/jszip.min.js"));
         }
     }
 }

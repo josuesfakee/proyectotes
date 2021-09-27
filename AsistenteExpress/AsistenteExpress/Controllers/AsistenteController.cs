@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace AsistenteExpress.Controllers
 {
-    //Just test
+    //Just test    
     public class AsistenteController : Controller
     {
         private EdenredContext _con = new EdenredContext();
@@ -15,7 +15,7 @@ namespace AsistenteExpress.Controllers
         public ActionResult Index()
         {
             Proceso proceso = new Proceso();
-            proceso.Campañas = _con.Campanias.ToList().ConvertAll(Campaña =>
+            proceso.Campañas = _con.Campanias.Where(x => x.Estatus).ToList().ConvertAll(Campaña =>
             {
                 return new SelectListItem()
                 {
@@ -24,7 +24,7 @@ namespace AsistenteExpress.Controllers
                     Selected = false
                 };
             });
-            proceso.Perfiles = _con.Perfiles.ToList().ConvertAll(Campaña =>
+            proceso.Perfiles = _con.Perfiles.Where(x => x.Estatus).ToList().ConvertAll(Campaña =>
             {
                 return new SelectListItem()
                 {
@@ -33,7 +33,7 @@ namespace AsistenteExpress.Controllers
                     Selected = false
                 };
             });
-            proceso.Motivos = _con.Motivos.ToList().ConvertAll(Campaña =>
+            proceso.Motivos = _con.Motivos.Where(x => x.Estatus).ToList().ConvertAll(Campaña =>
             {
                 return new SelectListItem()
                 {
@@ -42,7 +42,7 @@ namespace AsistenteExpress.Controllers
                     Selected = false
                 };
             });
-            proceso.SubMotivos = _con.Submotivos.ToList().ConvertAll(Campaña =>
+            proceso.SubMotivos = _con.Submotivos.Where(x => x.Estatus).ToList().ConvertAll(Campaña =>
             {
                 return new SelectListItem()
                 {
@@ -50,16 +50,13 @@ namespace AsistenteExpress.Controllers
                     Value = Campaña.Id.ToString(),
                     Selected = false
                 };
-            });
-
+            });            
             return View(proceso);
         }
 
-        // GET: Asistente/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        // GET: Asistente/Procesos/5
+        public ActionResult Procesos(int aIdCampania, int? aIdPerfil = null, int?aIdMotivo = null, int? aIdSubMotivos = null)
+        => Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);        
 
         // GET: Asistente/Create
         public ActionResult Create()
@@ -69,46 +66,69 @@ namespace AsistenteExpress.Controllers
 
         // POST: Asistente/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Proceso Model)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                Procesos procesoN = new Procesos();
+                procesoN.Id = 0;
+                procesoN.Asunto = Model.Asunto;
+                procesoN.IdCampaña = Model.IdCampania;
+                procesoN.IdPerfil = Model.IdPerfil;
+                procesoN.IdMotivo = Model.IdMotivo;
+                procesoN.IdSubMotivo = Model.IdSubMotivo;
+                procesoN.Estatus = true;
+                _con.Procesos.Add(procesoN);
+                _con.SaveChanges();
+                return Json(procesoN);
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return Json(e.Message);
             }
         }
 
         // GET: Asistente/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int aIdProceso, string aNombreProceso, int aIdCampania, int? aIdPerfil = null, int? aIdMotivo = null, int? aIdSubMotivos = null)
         {
-            return View();
+            Procesos proceso = _con.Procesos.Where(x => x.Id == aIdProceso).SingleOrDefault();
+            proceso.Asunto = aNombreProceso;
+            _con.SaveChanges();
+            return Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        // POST: Asistente/Edit/5
+        // POST: Asistente/Edit/
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Proceso Model)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                Procesos proceso = _con.Procesos.Where(x => x.Id == Model.IdProceso).SingleOrDefault();
+                proceso.Asunto = Model.Asunto;
+                proceso.IdCampaña = Model.IdCampania;
+                proceso.IdPerfil = Model.IdPerfil;
+                proceso.IdMotivo = Model.IdMotivo;
+                proceso.IdSubMotivo = Model.IdSubMotivo;
+                proceso.Estatus = true;
+                _con.SaveChanges();
+                return Json(proceso);
             }
-            catch
+            catch(Exception e)
             {
-                return View();
+                return Json(e.Message);
             }
         }
 
         // GET: Asistente/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int aIdProceso, int aIdCampania, int? aIdPerfil = null, int? aIdMotivo = null, int? aIdSubMotivos = null)
         {
-            return View();
+            Procesos proceso = _con.Procesos.Where(x=>x.Id == aIdProceso).SingleOrDefault();
+            if (proceso.Estatus)
+            {
+                proceso.Estatus = false;
+                _con.SaveChanges();
+            }            
+            return Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);
         }
 
         // POST: Asistente/Delete/5

@@ -1,7 +1,6 @@
 ﻿
 @model AsistenteExpress.Models.Proceso
 
-<div class="row bordes" style="padding: 10px">
     <div class="row ">
         <div class="col-md-12">
             <div class="col-md-3">
@@ -10,7 +9,7 @@
                 </div>
                 <div class="col-md-11 espacio">
                     @Html.DropDownListFor(m => m.Campañas, new SelectList(Model.Campañas, "Value", "Text"), "-SELECCIONE-",
-                    new { @class = "form-control", @id = "Id"/*, @onchange = "prueba()"*/ })
+                    new { @class = "form-control", @id = "campaña", @onchange = "FindProcesos()" })
                 </div>
             </div>
             <div class="col-md-3">
@@ -19,7 +18,7 @@
                 </div>
                 <div class="col-md-11 espacio">
                     @Html.DropDownListFor(m => m.Perfiles, new SelectList(Model.Perfiles, "Value", "Text"), "-SELECCIONE-",
-                    new { @class = "form-control", @id = "Id" })
+                    new { @class = "form-control", @id = "perfil", @onchange = "FindProcesos()" })
                 </div>
             </div>
             <div class="col-md-3">
@@ -28,7 +27,7 @@
                 </div>
                 <div class="col-md-11 espacio">
                     @Html.DropDownListFor(m => m.Motivos, new SelectList(Model.Motivos, "Value", "Text"), "-SELECCIONE-",
-                    new { @class = "form-control", @id = "Id" })
+                    new { @class = "form-control", @id = "motivo", @onchange = "FindProcesos()" })
                 </div>
             </div>
             <div class="col-md-3">
@@ -37,9 +36,8 @@
                 </div>
                 <div class="col-md-11 espacio">
                     @Html.DropDownListFor(m => m.SubMotivos, new SelectList(Model.SubMotivos, "Value", "Text"), "-SELECCIONE-",
-                    new { @class = "form-control", @id = "Id" })
+                    new { @class = "form-control", @id = "submotivo", @onchange = "FindProcesos()" })
                 </div>
             </div>
         </div>
     </div>
-</div>

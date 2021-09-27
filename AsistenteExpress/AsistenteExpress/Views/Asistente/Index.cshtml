@@ -1,6 +1,4 @@
-﻿@using Kendo.Mvc
-
-@model AsistenteExpress.Models.Proceso
+﻿@model AsistenteExpress.Models.Proceso
 
 <style type="text/css">
 
@@ -70,278 +68,280 @@
         }
     }
 </style>
-@*<div class="row">
-        @if (Request.IsAuthenticated)
-        {
-            @Html.Action("PartialMenu2", "Home")
-        }
-    </div>*@
+
+
+
 @using (Html.BeginForm("GuardaReiteracionCRM", "MovistarIn", FormMethod.Post, new { id = "formFinal" }))
 {
     <div class="container" style="margin-top: 70px;">
-        @{ Html.RenderPartial("~/Views/Asistente/PartialViews/_PartialFiltros.cshtml"); }
-
+        <div class="row bordes" style="padding: 10px">
+            @{ Html.RenderPartial("~/Views/Asistente/PartialViews/_PartialFiltros.cshtml"); }
+            @{ Html.RenderPartial("~/Views/Asistente/PartialViews/_PartialGridProcesos.cshtml"); }
+        </div>
         <br />
         <div class="row bordes" style="padding: 10px">
+            @{ Html.RenderPartial("~/Views/Asistente/PartialViews/_PartialProceso.cshtml"); }
             @*<div class="row">
-                    <div class="col-md-2 espacio">
-                        <label>Tripleta inicio:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.Tripleta,
-                            new { @class = "form-control", @id = "Tripleta", style = "text-align: center;" })
-                    </div>
-                    <div class="col-md-2 espacio">
-                        <label>Contactado:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.Contactado,
-                            new { @class = "form-control", @id = "Contactado", style = "text-align: center;" })
-                    </div>
-                    <div class="col-md-2">
-                        <label>Ultima prorroga levantada:</label>
-                    </div>
-                    <div class="col-md-2">
-                        @Html.TextBoxFor(m => m.UltimaProrroga,
-                            new { @class = "form-control", @id = "UltimaProrroga", style = "text-align: center;" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                        <label>2do Contacto:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.SegundoContacto,
-                            new { @class = "form-control", @id = "SegundoContacto", style = "text-align: center;" })
-                    </div>
-                    <div class="col-md-2">
-                        <label></label>
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2">
-                        <label>Estado de prorroga:</label>
-                    </div>
-                    <div class="col-md-2">
-                        @Html.TextBoxFor(m => m.EstadoProrroga,
-                            new { @class = "form-control", @id = "EstadoProrroga", style = "text-align: center;" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                        <label>3er Contacto:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.TercerContacto,
-                            new { @class = "form-control", @id = "TercerContacto", style = "text-align: center;" })
-                    </div>
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2">
-                        <label>Prorroga +6:</label>
-                    </div>
-                    <div class="col-md-2">
-                        @Html.TextBoxFor(m => m.ProrrogaPlusSeis,
-                            new { @class = "form-control", @id = "ProrrogaPlusSeis", style = "text-align: center;" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                        <label>4to Contacto:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.CuartoContacto,
-                            new { @class = "form-control", @id = "CuartoContacto", style = "text-align: center;" })
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2">
-                        <label>Estado:</label>
-                    </div>
-                    <div class="col-md-2">
-                        @Html.TextBoxFor(m => m.Estado,
-                            new { @class = "form-control", @id = "Estado", style = "text-align: center;" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2 espacio">
-                        <label>Area:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.Area,
-                            new { @class = "form-control", @id = "Area", style = "text-align: center;" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2">
-                        <label>Fecha en que se canaliza:</label>
-                    </div>
-                    <div class="col-md-2">
-                        @Html.TextBoxFor(m => m.FechaCanaliza,
-                            new { @class = "form-control datepicker", @id = "FechaCanaliza", style = "text-align: center;" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2 espacio">
-                        <label>Fecha del pago:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.FechaPago,
-                            new { @class = "form-control datepicker", @id = "", style = "text-align:center;" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2 espacio">
-                        <label>Monto:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.Monto,
-                            new { @class = "form-control", @id = "", style = "text-align: center;", @onkeypress = "return isNumberKey(event,this)" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2 espacio">
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-2 espacio">
-                        <label>Comentarios:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.Comentarios,
-                            new { @class = "form-control", @id = "", style = "text-align: center;" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                        <label>Escenario General:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.DropDownListFor(m => m.EscenarioGeneralR, (SelectList)@ViewBag.EscenarioGeneralR, "-SELECCIONE-",
-                            new { @class = "form-control", @id = "EscenarioGeneralR" })
-                    </div>
-                    <div class="col-md-2 espacio">
-                        <label>Sub Escenario:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.DropDownListFor(m => m.SubEscenarioR, (SelectList)@ViewBag.SubEscenarioR, "-SELECCIONE-",
-                            new { @class = "form-control", @id = "SubEscenarioR" })
-                    </div>
-                    <div class="col-md-2">
+            <div class="col-md-2 espacio">
+                <label>Tripleta inicio:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.Tripleta,
+                    new { @class = "form-control", @id = "Tripleta", style = "text-align: center;" })
+            </div>
+            <div class="col-md-2 espacio">
+                <label>Contactado:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.Contactado,
+                    new { @class = "form-control", @id = "Contactado", style = "text-align: center;" })
+            </div>
+            <div class="col-md-2">
+                <label>Ultima prorroga levantada:</label>
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.UltimaProrroga,
+                    new { @class = "form-control", @id = "UltimaProrroga", style = "text-align: center;" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+                <label>2do Contacto:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.SegundoContacto,
+                    new { @class = "form-control", @id = "SegundoContacto", style = "text-align: center;" })
+            </div>
+            <div class="col-md-2">
+                <label></label>
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2">
+                <label>Estado de prorroga:</label>
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.EstadoProrroga,
+                    new { @class = "form-control", @id = "EstadoProrroga", style = "text-align: center;" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+                <label>3er Contacto:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.TercerContacto,
+                    new { @class = "form-control", @id = "TercerContacto", style = "text-align: center;" })
+            </div>
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2">
+                <label>Prorroga +6:</label>
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.ProrrogaPlusSeis,
+                    new { @class = "form-control", @id = "ProrrogaPlusSeis", style = "text-align: center;" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+                <label>4to Contacto:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.CuartoContacto,
+                    new { @class = "form-control", @id = "CuartoContacto", style = "text-align: center;" })
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2">
+                <label>Estado:</label>
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.Estado,
+                    new { @class = "form-control", @id = "Estado", style = "text-align: center;" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2 espacio">
+                <label>Area:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.Area,
+                    new { @class = "form-control", @id = "Area", style = "text-align: center;" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2">
+                <label>Fecha en que se canaliza:</label>
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.FechaCanaliza,
+                    new { @class = "form-control datepicker", @id = "FechaCanaliza", style = "text-align: center;" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2 espacio">
+                <label>Fecha del pago:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.FechaPago,
+                    new { @class = "form-control datepicker", @id = "", style = "text-align:center;" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2 espacio">
+                <label>Monto:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.Monto,
+                    new { @class = "form-control", @id = "", style = "text-align: center;", @onkeypress = "return isNumberKey(event,this)" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2 espacio">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2 espacio">
+                <label>Comentarios:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.Comentarios,
+                    new { @class = "form-control", @id = "", style = "text-align: center;" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+                <label>Escenario General:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.DropDownListFor(m => m.EscenarioGeneralR, (SelectList)@ViewBag.EscenarioGeneralR, "-SELECCIONE-",
+                    new { @class = "form-control", @id = "EscenarioGeneralR" })
+            </div>
+            <div class="col-md-2 espacio">
+                <label>Sub Escenario:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.DropDownListFor(m => m.SubEscenarioR, (SelectList)@ViewBag.SubEscenarioR, "-SELECCIONE-",
+                    new { @class = "form-control", @id = "SubEscenarioR" })
+            </div>
+            <div class="col-md-2">
 
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                        <label>Solucionado:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.DropDownListFor(m => m.SolucionadoR, (SelectList)@ViewBag.SolucionadoR, "-SELECCIONE-",
-                            new { @class = "form-control", @id = "SolucionadoR" })
-                    </div>
-                    <div class="col-md-2 espacio">
-                        <label>Fecha de Atencion:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.FechaAtencion,
-                            new { @class = "form-control datepicker", @id = "fechaMaxima", style = "text-align: center;" })
-                    </div>
-                    <div class="col-md-2">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+                <label>Solucionado:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.DropDownListFor(m => m.SolucionadoR, (SelectList)@ViewBag.SolucionadoR, "-SELECCIONE-",
+                    new { @class = "form-control", @id = "SolucionadoR" })
+            </div>
+            <div class="col-md-2 espacio">
+                <label>Fecha de Atencion:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.FechaAtencion,
+                    new { @class = "form-control datepicker", @id = "fechaMaxima", style = "text-align: center;" })
+            </div>
+            <div class="col-md-2">
 
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                        <label>Area que Soluciona:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.DropDownListFor(m => m.AreaSolucionaR, (SelectList)@ViewBag.AreaSolucionaR, "-SELECCIONE-",
-                            new { @class = "form-control", @id = "AreaSolucionaR" })
-                    </div>
-                    <div class="col-md-2 espacio">
-                        <label>Numero de casos gestionados:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.NumeroCasosGestionado,
-                            new
-                                 {
-                                     @class = "form-control",
-                                     @id = "NCG",
-                                     type = "number",
-                                @pattern = "[0-9]",
-                                     @onkeypress = "return !(event.charCode == 46)",
-                                     @style = "text-align: center;",
-                                     @readonly = "readonly"
-                                 })
-                    </div>
-                    <div class="col-md-2">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+                <label>Area que Soluciona:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.DropDownListFor(m => m.AreaSolucionaR, (SelectList)@ViewBag.AreaSolucionaR, "-SELECCIONE-",
+                    new { @class = "form-control", @id = "AreaSolucionaR" })
+            </div>
+            <div class="col-md-2 espacio">
+                <label>Numero de casos gestionados:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.NumeroCasosGestionado,
+                    new
+                         {
+                             @class = "form-control",
+                             @id = "NCG",
+                             type = "number",
+                        @pattern = "[0-9]",
+                             @onkeypress = "return !(event.charCode == 46)",
+                             @style = "text-align: center;",
+                             @readonly = "readonly"
+                         })
+            </div>
+            <div class="col-md-2">
 
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 espacio">
-                        <label>Agente que provoca reiteración:</label>
-                    </div>
-                    <div class="col-md-2 espacio">
-                        @Html.TextBoxFor(m => m.AgenteProvocaReiteracion, new { @class = "form-control", style = "text-align: center", @id = "APG" })
-                    </div>
-                    <div class="col-md-2 espacio">
-                        <label>Descripción del caso:</label>
-                    </div>
-                    <div class="col-md-6 espacio">
-                        @Html.TextAreaFor(m => m.DescripcionCaso, new { @class = "form-control", style = "resize: none", maxlength = "250", @id = "DC" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-9 espacio">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 espacio">
+                <label>Agente que provoca reiteración:</label>
+            </div>
+            <div class="col-md-2 espacio">
+                @Html.TextBoxFor(m => m.AgenteProvocaReiteracion, new { @class = "form-control", style = "text-align: center", @id = "APG" })
+            </div>
+            <div class="col-md-2 espacio">
+                <label>Descripción del caso:</label>
+            </div>
+            <div class="col-md-6 espacio">
+                @Html.TextAreaFor(m => m.DescripcionCaso, new { @class = "form-control", style = "resize: none", maxlength = "250", @id = "DC" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9 espacio">
 
-                    </div>
-                    <div class="col-md-3 espacio">
-                        <button type="button" class="btn btn-success" onclick="ValidaForm();" style="width:100%">
-                            Guardar <i class="glyphicon glyphicon-save-file"></i>
-                        </button>
-                    </div>
-                </div>*@
+            </div>
+            <div class="col-md-3 espacio">
+                <button type="button" class="btn btn-success" onclick="ValidaForm();" style="width:100%">
+                    Guardar <i class="glyphicon glyphicon-save-file"></i>
+                </button>
+            </div>
+        </div>*@
         </div>
     </div>
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/Modulos/procesos.js" type="text/javascript" charset="UTF-8"></script>
 }
