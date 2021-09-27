@@ -1,7 +1,7 @@
 USE [AsistentExpress]
 GO
 
-/****** Object:  Table [dbo].[Motivos]    Script Date: 23/09/2021 11:04:58 p. m. ******/
+/****** Object:  Table [dbo].[Motivos]    Script Date: 27/09/2021 01:46:36 a. m. ******/
 SET ANSI_NULLS ON
 GO
 
@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Motivos](
-	[Id] [int] NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Descripcion] [nvarchar](100) NOT NULL,
 	[Estatus] [bit] NOT NULL,
  CONSTRAINT [PK_Motivos] PRIMARY KEY CLUSTERED 
