@@ -1,0 +1,93 @@
+﻿<table width="80%" class="table">
+    <tr>
+        <td style="text-align: center; border-color: #ffffff;" colspan="3">
+            <h4>Cargar Notificación</h4>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <center><h5>Asunto:</h5></center>
+        </td>
+        <td colspan="2">
+            <input style="min-width:100%" class="form-control" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <center><h5>comentario:</h5></center>
+        </td>
+        <td colspan="2">
+            <textarea class="form-control" cols="200" id="pr5" name="pr5"  placeholder="" rows="4"  style="max-width: 100% !important;  height: 90px; resize: none;"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td style="width:30%;">
+            <div class="input-group">
+                <span class="input-group-addon" style="font-size: 10px;">
+                    <label class="fileContainer">
+                        <i class="glyphicon glyphicon-folder-open"></i>
+                        <input id="uploadBtn" w type="file" name="upload">
+                    </label>
+                </span>
+                <input id="uploadFile" placeholder="Subir archivos .xls, .xlsx, .pdf, .doc, .ppt" disabled="disabled" class="form-control" style="max-width:100%; font-size: 10px;">
+            </div>
+            <br />
+            <br />
+            @*//DESPUES DE LA CARGA*@
+            <div class="col-md-2">
+                <div id="finalizadovigente" style="width: 100%; display:none">
+                    <label style="color: #0a3968; font-size: 25px;"><i class="glyphicon glyphicon-ok"></i></label>
+                    ¡Carga finalizada!
+                </div>
+            </div>
+            @*<div class="col-md-12" style="max-height: 500px; float: left; overflow-y: auto; border: 2px solid #0a3968;">
+                    @if (Model != null)
+                    {
+
+                        <table>
+                            <tbody>
+                                <div>
+                                    <h3>Se cargaron correctamente @Model registros</h3>
+                                </div>
+                            </tbody>
+                        </table>
+                        <script type="text/javascript">
+                                            finalizado();
+                        </script>
+                    }
+                </div>*@
+            <div class="col-md-12">
+                @Html.ValidationMessage("File")
+            </div>
+
+        </td>
+        <td style="text-align:center;">
+            <button type="button" id="btnNuevo" class="btn btn-info" onclick="Guardar();">
+
+                Cargar
+            </button>
+        </td>
+        <td style="text-align:center;">
+            <button type="button" id="btnNuevo" class="btn btn-info"
+                    onclick="location.href='@Url.Action("Detail_CargaFolios", "Banorte")'">
+                Ver
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center; border-color: #ffffff;">Fecha y hora</td>
+        <td style="text-align: center; border-color: #ffffff;"></td>
+        <td style="text-align: center; border-color: #ffffff;">Vigencia</td>
+    </tr>
+    <tr>
+        <td>
+            <input id="datetimepicker" title="datetimepicker" style="width: 100%;" />
+        </td>
+        <td>
+            <span style="max-width:100%;min-width:100%;"></span>
+        </td>
+        <td>
+            <center><input id="date" style="width:50%;" /></center>
+        </td>
+    </tr>
+</table>
