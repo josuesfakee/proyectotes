@@ -1,6 +1,7 @@
 ﻿using AsistenteExpress.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,12 +14,12 @@ namespace AsistenteExpress.Controllers
     {
         private EdenredContext _con = new EdenredContext();
         // GET: Asistente
-        
+
         public ActionResult Index()
         {
             //ADMIN = El BARTO
             //USUARIO = USER
-            Session["user"] = "El Barto"; 
+            Session["user"] = "El Barto";
             Proceso proceso = new Proceso();
             proceso.Campañas = _con.Campanias.Where(x => x.Estatus).ToList().ConvertAll(Campaña =>
             {
@@ -55,13 +56,18 @@ namespace AsistenteExpress.Controllers
                     Value = Campaña.Id.ToString(),
                     Selected = false
                 };
-            });            
+            });
             return View(proceso);
         }
 
         // GET: Asistente/Procesos/5
-        public ActionResult Procesos(int aIdCampania, int? aIdPerfil = null, int?aIdMotivo = null, int? aIdSubMotivos = null)
-        => Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);        
+        public ActionResult Procesos(int aIdCampania, int? aIdPerfil = null, int? aIdMotivo = null, int? aIdSubMotivos = null)
+        => Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);
+
+
+        public ActionResult Archivos(int aIdProceso)
+        => Json(_con.Archivos.Where(x => x.Estatus && x.IdProceso == aIdProceso).ToList(), JsonRequestBehavior.AllowGet);
+
 
         // GET: Asistente/Create
         public ActionResult Create()
@@ -118,7 +124,7 @@ namespace AsistenteExpress.Controllers
                 _con.SaveChanges();
                 return Json(proceso);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(e.Message);
             }
@@ -127,12 +133,12 @@ namespace AsistenteExpress.Controllers
         // GET: Asistente/Delete/5
         public ActionResult Delete(int aIdProceso, int aIdCampania, int? aIdPerfil = null, int? aIdMotivo = null, int? aIdSubMotivos = null)
         {
-            Procesos proceso = _con.Procesos.Where(x=>x.Id == aIdProceso).SingleOrDefault();
+            Procesos proceso = _con.Procesos.Where(x => x.Id == aIdProceso).SingleOrDefault();
             if (proceso.Estatus)
             {
                 proceso.Estatus = false;
                 _con.SaveChanges();
-            }            
+            }
             return Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -152,101 +158,77 @@ namespace AsistenteExpress.Controllers
             }
         }
 
-        #region EXAMPLE Upload FILE
-        //public ActionResult UploadFileExample()
-        //{
-        //    try
-        //    {
-        //        if (Request.Files.Count > 0)
-        //        {
-        //            var root = "~/Content/Temp/";
+        public ActionResult UploadFile(int IdProceso)
+        {
+            try
+            {
+                if (Request.Files.Count > 0)
+                {                    
+                    List<int> NumSolucion_img = new List<int>();
+                    var lst_imgName = Request.Files.AllKeys;
+                    for (int j = 0; j < lst_imgName.Count(); j++)
+                    {
+                        int tmp = Int32.Parse(lst_imgName[j].Replace("photo_", ""));
+                        NumSolucion_img.Add(tmp);
+                    }
+                    for (int j = 0; j < NumSolucion_img.Count(); j++)
+                    {
+                        int position = NumSolucion_img[j];
+                        var files = Request.Files[j];
+                        var fileName = Path.GetFileName(files.FileName);
 
-        //            bool folderpath = Directory.Exists(HttpContext.Server.MapPath(root));
-        //            if (!folderpath)
-        //            {
-        //                Directory.CreateDirectory(HttpContext.Server.MapPath(root));
-        //            }
-        //            //----
-        //            List<int> NumSolucion_img = new List<int>();
-        //            //----
-        //            var lst_imgName = Request.Files.AllKeys;
-        //            //----
-        //            for (int j = 0; j < lst_imgName.Count(); j++)
-        //            {
-        //                int tmp = Int32.Parse(lst_imgName[j].Replace("photo_", ""));
-        //                //tmp = tmp - 1;
-        //                NumSolucion_img.Add(tmp);
-        //            }
-        //            var k_real = 0;
-        //            //FILES
-        //            for (int j = 0; j < NumSolucion_img.Count(); j++)
-        //            {
-        //                int position = NumSolucion_img[j];
-        //                //for (int k = 0; k < Lst_IdSolution_Saved.Count(); k++)
-        //                //{
-        //                //if (k == position)
-        //                //{
-        //                //k_real = Lst_IdSolution_Saved[k];
-        //                //
-        //                var files = Request.Files[j];
-        //                var fileName = Path.GetFileName(files.FileName);
-        //                //
-        //                FilesTickets file = new FilesTickets();
-        //                //int tmp = Lst_IdSolution_Saved[k];
-        //                using (ClaroContext conn = new ClaroContext())
-        //                {
-        //                    file.IdCrm = IdCRM;
-        //                    file.IdBandeja = IdBandeja;
-        //                    file.NameFile = fileName;
-        //                    file.Ruta = @"\10.200.154.36\uFiles\Edenred\AsistenteExpress\" + fileName;
-        //                    file.FechaCarga = Hoy;
-        //                    //file.estatus = true;
-        //                    file.typeFile = Request.Files[j].ContentType;
-        //                    file.IdHis = IdHis;
-        //                    file.IdHisBandeja = historico.Id;
-        //                    conn.FilesTickets.Add(file);
-        //                    var validaSave = conn.SaveChanges();
-        //                    if (validaSave > 0)
-        //                    {
-        //                        //GUARDA EL ARCHIVO DE FORMA LOCAL
-        //                        var path = Path.Combine(HttpContext.Server.MapPath(root), fileName);
-        //                        files.SaveAs(path);
-        //                        //GUARDA EN LA RUTA QUE SERA COMPARTIDA PARA AMBAS DIRECCIONES 35 Y 36
-        //                        var fname = @"\\\\10.200.154.36\\uFiles\\Edenred\\AsistenteExpress\\" + fileName;
-        //                        System.IO.File.Copy(path, fname, true);
-        //                        System.IO.File.Delete(path);
-        //                        data.Msj = "OK";
-        //                        return Json(data, JsonRequestBehavior.AllowGet);
+                        List<Archivos> liArchivos = _con.Archivos.Where(x => x.Estatus && x.IdProceso == IdProceso).ToList();
 
-        //                    }
+                        if (liArchivos.Count > 0)
+                        {
+                            foreach (Archivos item in liArchivos)
+                            {
+                                item.Estatus = false;
+                                if (System.IO.File.Exists(item.ruta))                                
+                                    System.IO.File.Delete(item.ruta);                                
+                            }
+                            _con.SaveChanges();
+                        }
 
-        //                }
-        //                //}
-        //                //}
-        //            }
-        //            data.Msj = "OK";
-        //            return Json(data, JsonRequestBehavior.AllowGet);
-        //            //
-        //        }
-        //        else
-        //        {
-        //            //return Json(new { success = false, message = "¡Favor de seleccionar un archivo!" }, JsonRequestBehavior.AllowGet);
-        //            data.Msj = "OK";
-        //            return Json(data, JsonRequestBehavior.AllowGet);
-        //        }
-        //        //
+                        if (!Directory.Exists(Server.MapPath("~/App_Data/Documentos Subidos")))                        
+                            Directory.CreateDirectory(Server.MapPath("~/Content/Temp"));                        
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        data.Msj = "ERROR";
-        //        return Json(data, JsonRequestBehavior.AllowGet);
-        //    }
+                        var path = Path.Combine(Server.MapPath("~/Content/Temp"), fileName);
 
-        //}
-        #endregion
+                        Archivos archivo = new Archivos();
+                        archivo.Usuario = "";
+                        archivo.NameFile = fileName;
+                        archivo.ruta = path;
+                        archivo.typeFile = Request.Files[j].ContentType;
+                        archivo.FechaCarga = DateTime.Now;
+                        archivo.IdProceso = IdProceso;
+                        archivo.Estatus = true;
 
-        public ActionResult CreateNotificacion() 
+                        _con.Archivos.Add(archivo);
+
+                        var validaSave = _con.SaveChanges();
+                        if (validaSave > 0)
+                        {
+                            //GUARDA EL ARCHIVO DE FORMA LOCAL                            
+                            files.SaveAs(path);
+                            //GUARDA EN LA RUTA QUE SERA COMPARTIDA PARA AMBAS DIRECCIONES 35 Y 36
+                            //var fname = @"\\\\10.200.154.36\\uFiles\\Edenred\\AsistenteExpress\\" + fileName;
+                            //System.IO.File.Copy(path, fname, true);
+                            //System.IO.File.Delete(path);
+
+                        }
+                    }
+                }
+                return Json(new { Msj = "OK" });
+                //
+            }
+            catch(Exception e)
+            {
+                return Json(new { Msj = "Error", ExceptionMsg = e.Message});
+            }
+        }
+
+        public ActionResult CreateNotificacion()
         {
             return View();
         }

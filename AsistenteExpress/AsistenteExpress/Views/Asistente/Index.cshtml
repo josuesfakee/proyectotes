@@ -1,53 +1,4 @@
 ﻿@model AsistenteExpress.Models.Proceso
-<script type="text/javascript">
-
-    var user = '@Session["user"]'
-     function Save() {
-        //debugger;
-        var file = $('#photo_0').get(0);
-        var img = file;
-        //// VALIDA IMGs
-        var ajaxData = new FormData();
-        var nameFile = "";
-        $.each($(img), function (i, obj) {
-            //alert(obj.name);
-            nameFile = obj.name;
-            $.each(obj.files, function (i, file) {
-                //console.log(name);
-                ajaxData.append(nameFile, file);
-            })
-        });
-        ///---
-        //
-                $.ajax({
-                url: '@Url.Action("PUT_Ticket", "Tickets")',
-                    type: "POST",
-                    contentType: false,
-                    processData: false,
-                    data: ajaxData,
-                     success: function (data) {
-                    //debugger;
-                         if (data.Msj == "OK") {
-                        //
-                        $("#ModalDetalleSolicitud").modal("toggle");
-                        MsjSave();
-                        GET_NIVEL(data.NIVEL);
-                        //refresh();
-                        //
-                    } else {
-                        alert("Hubo un error, Intenta nuevamente");
-                        //refresh();
-                    }
-                },
-                    error: function (err) {
-                    alert("Hubo un error, Intenta nuevamente");
-                    //alert("Hubo un error, favor de reportarlo a su supervisor", data.message);
-                }
-            });
-    }
-    //
-</script>
-
 
 <style type="text/css">
 
@@ -119,19 +70,23 @@
 </style>
 
 
-
-@using (Html.BeginForm("GuardaReiteracionCRM", "MovistarIn", FormMethod.Post, new { id = "formFinal" }))
-{
-    <div class="container" style="margin-top: 70px;">
-        <div class="row bordes" style="padding: 10px">
-            @{ Html.RenderPartial("~/Views/Asistente/PartialViews/_PartialFiltros.cshtml"); }
-            @{ Html.RenderPartial("~/Views/Asistente/PartialViews/_PartialGridProcesos.cshtml"); }
-        </div>
-        <br />
-        <div class="row bordes" style="padding: 10px">
-            @{ Html.RenderPartial("~/Views/Asistente/PartialViews/_PartialProceso.cshtml"); }
-        </div>
+<div class="container" style="margin-top: 70px;">
+    <div class="row bordes" style="padding: 10px">
+        @{ Html.RenderPartial("~/Views/Asistente/PartialViews/_PartialFiltros.cshtml"); }
+        @{ Html.RenderPartial("~/Views/Asistente/PartialViews/_PartialGridProcesos.cshtml"); }
     </div>
+    <br />
+    <div class="row bordes" style="padding: 10px">
+        @{ Html.RenderPartial("~/Views/Asistente/PartialViews/_PartialProceso.cshtml"); }
+
+    </div>
+    <br />
+    <div id="pdfviewer" class="row bordes" style="padding: 10px">
+        <div id="pdfRenderer"></div>
+    </div>
+
+</div>
+
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/Modulos/procesos.js" type="text/javascript" charset="UTF-8"></script>
-}
+

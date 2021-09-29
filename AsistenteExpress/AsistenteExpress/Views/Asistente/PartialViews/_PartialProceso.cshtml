@@ -29,15 +29,32 @@
                 </div>
                 <div class="col-md-3">
                     <div class="col-md-4 espacio">
-                        <label></label>
+                        <label>Archivo</label>
                     </div>
                     <div class="col-md-11 espacio">
-                        <button id="btnGuardar" type="button" class="btn btn-success" onclick="Guardar();" style="width:100%;" disabled="true">
+                        <div class="custom-file">
+                            <ul id="liarchivos">
+                            </ul>
+
+                            <input type="file" id="DocFile" name="photo_0" style="font-size:11px;" max-file-size="5120" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-4 espacio">
+                        <label></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-11 espacio">
+                        <button id="btnGuardar" type="button" class="btn btn-success" onclick="Guardar();" style="width:100%; margin:0.5em" disabled="true">
                             Guardar
+                        </button>
+                        <button id="btnGuardar" type="button" class="btn btn-danger" onclick="LimpiarTodo();" style="width:100%; margin:0.5em">
+                            Cancelar
                         </button>
                     </div>
                 </div>
-
                 @*<div class="col-md-3">
             <div class="col-md-4 espacio">
                 <label>Archivo</label>

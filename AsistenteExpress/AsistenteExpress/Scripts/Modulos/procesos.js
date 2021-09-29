@@ -1,11 +1,18 @@
 ﻿$(document).ready(function () {
     FindProcesos();
+    Limpiar();
+    $("#datetimepicker").kendoDateTimePicker({
+        value: new Date(),
+        dateInput: true
+    });
 });
 
 function FindProcesos() {
     let JsonRequest = FillObject();
     if (JsonRequest != null)
-        Buscar("/Asistente/Procesos/", JsonRequest);
+        Buscar("/Asistente/Procesos/", JsonRequest, function (data) {
+            CreateGrid(data);
+        });
     else
         CreateGrid([]);
 }
@@ -37,10 +44,10 @@ function FillObject() {
     return JsonRequest;
 }
 
-function Buscar(url, JsonRequest) {
+function Buscar(url, JsonRequest, functionOK) {
     var jqxhr = $.get(url, JsonRequest)
-        .done(function (data) {
-            CreateGrid(data)
+        .done(function (data) {            
+            functionOK(data);
             return;
         })
         .fail(function (e) {
@@ -51,15 +58,10 @@ function Buscar(url, JsonRequest) {
         });
 }
 
-function Save(url, JsonRequest) {
+function Save(url, JsonRequest, functionOK) {
     var jqxhr = $.post(url, JsonRequest)
-        .done(function (data) {
-            FindProcesos();
-            if (url.indexOf("Create") > -1)
-                alert("Registro creado correctamente");
-            else
-                alert("Registro actualizado correctamente");
-            
+        .done(function (data) {            
+            functionOK(data);                                   
             return;
         })
         .fail(function (e) {
@@ -109,48 +111,58 @@ function CreateGrid(data) {
                 width: 140
             },
             {
-                command: [
-                    {
-                        name: "Ver",
-                        click: function (e) {
-                            e.preventDefault();
-                            var tr = $(e.target).closest("tr");
-                            var data = $("#grid").data("kendoGrid").dataItem(tr);
-                            $("#IdProceso").val(data.Id);
-                            $("#Asunto").val(data.Asunto);
-                            document.getElementById("Asunto").disabled = true;
-                            document.getElementById("btnGuardar").disabled = true;
-                        }
-                    },
-                    {
-                        name: "Editar",
-                        click: function (e) {
-                            e.preventDefault();
-                            var tr = $(e.target).closest("tr");
-                            var data = $("#grid").data("kendoGrid").dataItem(tr);
-                            $("#IdProceso").val(data.Id);
-                            $("#Asunto").val(data.Asunto);
-                            document.getElementById("Asunto").disabled = false;
-                            document.getElementById("btnGuardar").disabled = false;
-                        }
-                    },
-                    {
-                        name: "Eliminar",
-                        click: function (e) {
-                            e.preventDefault();
-                            var tr = $(e.target).closest("tr");
-                            var data = $("#grid").data("kendoGrid").dataItem(tr);
-                            let JsonRequest = FillObject();
-                            JsonRequest.aIdProceso = data.Id;
-                            Buscar("/Asistente/Delete/", JsonRequest);
-                        }
-                    },
-                ]
-            }
+                name: "",
+                template: function myfunction(data) {
+                    return "<button onclick='Ver(" + data.Id + ")'>Ver</button> <button onclick='editar(" + data.Id + ")'>Editar</button> <button onclick='Eliminar(" + data.Id +")'>Eliminar</button>";
+                }
+            },
         ],
         edit: function (e) {
             return;
         }
+    });
+}
+
+function Ver(idProceso) {
+    var data = $('#grid').data("kendoGrid").dataSource.data();
+    data = data.find(function (data) {
+        return data.Id == idProceso;
+    });
+    $("#IdProceso").val(data.Id);
+    $("#Asunto").val(data.Asunto);
+    document.getElementById("Asunto").disabled = true;
+    document.getElementById("btnGuardar").disabled = true;
+}
+
+function editar(idProceso) {    
+    var data = $('#grid').data("kendoGrid").dataSource.data();
+    data = data.find(function (data) {
+        return data.Id == idProceso;
+    });
+    $("#IdProceso").val(data.Id);
+    $("#Asunto").val(data.Asunto);
+
+    document.getElementById("liarchivos").innerHTML = "";
+    Buscar("/Asistente/Archivos/", { aIdProceso: data.Id }, function (data) {
+        data.forEach(function myfunction(archivo) {
+            $("#liarchivos").append('<li><a href="#" onclick=viewPdf("' + (window.location.href.replace("#","")) + "Content/Temp/" + archivo.NameFile + '")>' + archivo.NameFile + '</a></li>');            
+        });
+    });
+
+    document.getElementById("Asunto").disabled = false;
+    document.getElementById("btnGuardar").disabled = false;
+}
+
+function viewPdf(urlPDF) {
+    PDFObject.embed(urlPDF, "#pdfRenderer");
+    document.getElementById("pdfviewer").style.display = "block";
+}
+
+function Eliminar(idProceso) {
+    let JsonRequest = FillObject();
+    JsonRequest.aIdProceso = idProceso;
+    Buscar("/Asistente/Delete/", JsonRequest, function (data) {
+        CreateGrid(data);
     });
 }
 
@@ -173,16 +185,74 @@ function Guardar() {
     jsonRequest.IdPerfil = $("#perfil").val() != "" ? parseInt($("#perfil").val()) : null;
     jsonRequest.IdMotivo = $("#motivo").val() != "" ? parseInt($("#motivo").val()) : null;
     jsonRequest.IdSubMotivo = $("#submotivo").val() != "" ? parseInt($("#submotivo").val()) : null;
+
+    let files = document.getElementById("DocFile").files;
+    if (files.length == 0 && idProceso == 0) {
+        swal("Carga un archivo para guardar");
+        return;
+    }
+
     if (idProceso == 0)
-        Save("/Asistente/Create/", jsonRequest);
-    else
-        Save("/Asistente/Edit/", jsonRequest);
+        Save("/Asistente/Create/", jsonRequest, function (data) {
+            UploadFile(data);
+            FindProcesos();
+
+        });
+    else {
+        if (document.querySelectorAll("#liarchivos li").length > 0 && files.length != 0) {
+            Save("/Asistente/Edit/", jsonRequest, function (data) {
+                UploadFile(data);
+                FindProcesos();
+            });
+        } else {
+            swal("Carga un archivo para guardar");
+            return;
+        }
+    }
+        
+
 
     Limpiar();
 }
+
+function UploadFile(data) {
+    var file = $('#DocFile').get(0);
+    var img = file;
+    var ajaxData = new FormData();
+    var nameFile = "";
+    $.each($(img), function (i, obj) {
+        nameFile = obj.name;
+        $.each(obj.files, function (i, file) {
+            ajaxData.append(nameFile, file);
+        })
+    });
+
+    $.ajax({
+        url: '/Asistente/UploadFile/?IdProceso=' + data?.Id,
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: ajaxData,
+        success: function (data) {
+            if (data.Msj == "OK") {
+                $("#DocFile").val("");
+                document.getElementById("liarchivos").innerHTML = "";
+            } else {
+                alert("Hubo un error, Intenta nuevamente");
+            }
+        },
+        error: function (err) {
+            alert("Hubo un error, Intenta nuevamente");
+        }
+    });
+}
+
 function Limpiar() {
     $("#IdProceso").val("");
     $("#Asunto").val("");
+    document.getElementById("liarchivos").innerHTML = "";
+    $("#DocFile").val("");
+    document.getElementById("pdfviewer").style.display = "none";
 }
 
 function LimpiarTodo() {

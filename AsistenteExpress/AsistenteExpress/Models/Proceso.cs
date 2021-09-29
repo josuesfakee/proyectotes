@@ -17,7 +17,6 @@ namespace AsistenteExpress.Models
         public List<SelectListItem> Motivos { get; set; }
         public int? IdMotivo { get; set; }
         public List<SelectListItem> SubMotivos { get; set; }
-
         public int? IdSubMotivo { get; set; }
     }
 }

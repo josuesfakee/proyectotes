@@ -28,11 +28,18 @@ namespace AsistenteExpress
 
             bundles.Add(new StyleBundle("~/Content/Kendo").Include(
                       "~/Content/Kendo/kendo.common.min.css",
-                      "~/Content/Kendo/kendo.default.min.css"));
+                      "~/Content/Kendo/kendo.default.min.css",
+                      "~/Content/Kendo/kendo.default.mobile.min.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/Kendo").Include(
                      "~/Scripts/Kendo/kendo.all.min.js",
                      "~/Scripts/Kendo/jszip.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/SweetAlert").Include(
+                     "~/Scripts/utils/SweetAlert2/dist/sweetalert2.all.js"));
+
+            bundles.Add(new StyleBundle("~/Content/SweetAlert").Include(
+                     "~/Scripts/utils/SweetAlert2/dist/sweetalert2.css"));
         }
     }
 }

@@ -30,6 +30,8 @@ namespace AsistenteExpress.Models
     public class Archivos
     {
         [Key] public int Id { get; set; }
+
+        public int IdProceso { get; set; }
         public string Usuario { get; set; }
         public string NameFile { get; set; }
         public string ruta { get; set; }

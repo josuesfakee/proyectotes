@@ -5,9 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Kendo")
+    @Styles.Render("~/Content/SweetAlert")
     @Scripts.Render("~/bundles/modernizr")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.6/pdfobject.js">
+    </script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -36,9 +40,10 @@
             <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
         </footer>
     </div>
-        
+    
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Kendo")
+    @Scripts.Render("~/bundles/SweetAlert")
     @RenderSection("scripts", required: false)
 </body>
 </html>
