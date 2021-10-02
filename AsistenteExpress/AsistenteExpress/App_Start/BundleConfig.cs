@@ -39,7 +39,7 @@ namespace AsistenteExpress
                      "~/Scripts/utils/SweetAlert2/dist/sweetalert2.all.js"));
 
             bundles.Add(new StyleBundle("~/Content/SweetAlert").Include(
-                     "~/Scripts/utils/SweetAlert2/dist/sweetalert2.css"));
+                     "~/Scripts/utils/SweetAlert2/dist/sweetalert2.min.css"));
         }
     }
 }

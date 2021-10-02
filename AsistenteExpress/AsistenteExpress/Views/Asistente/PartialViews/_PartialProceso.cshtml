@@ -1,69 +1,74 @@
 ﻿
 @model AsistenteExpress.Models.Proceso
 
-    <div class="row ">
-        <div class="col-md-12">
+<!-- The ModalForm -->
+<div id="myModalForm" class="modal">
+
+    <!-- Modal content -->
+    <div id="modal-content_myModalForm">
+        @*<span class="close" id="close_myModalForm">&times;</span>*@
+        <div class="row ">
             <div class="col-md-12">
-                <div class="col-md-12 espacio">
-                    <label>Generación de procesos</label>
+                <div class="col-md-12">
+                    <div class="col-md-12 espacio">
+                        <h1><label id="TitleCat"></label></h1>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3" style="display:none">
+                        <div class="col-md-4 espacio">
+                            <label>Id</label>
+                        </div>
+                        <div class="col-md-11 espacio">
+                            @Html.TextBoxFor(m => m.IdProceso,
+                                new { @class = "form-control", @id = "IdProceso", style = "text-align: left;" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-4 espacio">
+                            <label>Asunto</label>
+                        </div>
+                        <div class="col-md-11 espacio">
+                            @Html.TextBoxFor(m => m.Asunto,
+                                new { @class = "form-control", @id = "Asunto", style = "text-align: left;" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-4 espacio">
+                            <label>Archivo</label>
+                        </div>
+                        <div class="col-md-11 espacio">
+                            <div class="custom-file">
+                                <ul id="liarchivos">
+                                </ul>
+
+                                <input type="file" id="DocFile" name="photo_0" style="font-size:11px;" max-file-size="5120" />
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="col-md-3" style="display:none">
-                    <div class="col-md-4 espacio">
-                        <label>Id</label>
-                    </div>
-                    <div class="col-md-11 espacio">
-                        @Html.TextBoxFor(m => m.IdProceso,
-                            new { @class = "form-control", @id = "IdProceso", style = "text-align: left;" })
+                <div class="col-md-12">
+                    <div class="col-md-12 espacio">
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="col-md-4 espacio">
-                        <label>Asunto</label>
-                    </div>
-                    <div class="col-md-11 espacio">
-                        @Html.TextBoxFor(m => m.Asunto,
-                            new { @class = "form-control", @id = "Asunto", style = "text-align: left;" })
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="col-md-4 espacio">
-                        <label>Archivo</label>
-                    </div>
-                    <div class="col-md-11 espacio">
-                        <div class="custom-file">
-                            <ul id="liarchivos">
-                            </ul>
-
-                            <input type="file" id="DocFile" name="photo_0" style="font-size:11px;" max-file-size="5120" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="col-md-4 espacio">
-                        <label></label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="col-md-11 espacio">
-                        <button id="btnGuardar" type="button" class="btn btn-success" onclick="Guardar();" style="width:100%; margin:0.5em" disabled="true">
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="col-md-12 espacio">
+                        <button id="btnGuardar" type="button" class="btn btn-success" onclick="Guardar();" style="width:30%; margin:0.5em">
                             Guardar
                         </button>
-                        <button id="btnGuardar" type="button" class="btn btn-danger" onclick="LimpiarTodo();" style="width:100%; margin:0.5em">
+                        <button id="btnGuardar" type="button" class="btn btn-info" onclick="LimpiarTodo();" style="width:30%; margin:0.5em">
                             Cancelar
                         </button>
                     </div>
                 </div>
-                @*<div class="col-md-3">
-            <div class="col-md-4 espacio">
-                <label>Archivo</label>
-            </div>
-            <div class="col-md-11 espacio">
-                <form method="post" enctype="multipart/form-data">
-                    <input type="file" asp-for="Upload" />
-                </form>
-        </div>*@
             </div>
         </div>
     </div>
+
+</div>
+<!-- The ModalForm -->

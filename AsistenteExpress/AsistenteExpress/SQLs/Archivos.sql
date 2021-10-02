@@ -1,7 +1,7 @@
 USE [AsistentExpress]
 GO
 
-/****** Object:  Table [dbo].[Archivos]    Script Date: 28/09/2021 10:47:41 p. m. ******/
+/****** Object:  Table [dbo].[Archivos]    Script Date: 01/10/2021 11:12:52 p. m. ******/
 SET ANSI_NULLS ON
 GO
 
@@ -22,6 +22,9 @@ CREATE TABLE [dbo].[Archivos](
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Archivos] ADD  DEFAULT ((1)) FOR [Estatus]
 GO
 
 

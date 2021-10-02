@@ -23,13 +23,15 @@ function FillObject() {
     let idCampania = parseInt(($("#campaña").val() == "") ? 0 : $("#campaña").val());
 
     if (idCampania != 0) {
-
-        document.getElementById("btnGuardar").disabled = false;
+                       
 
         JsonRequest = {};
         JsonRequest.aIdCampania = parseInt(idCampania);
         if ($("#perfil").val() != "")
             JsonRequest.aIdPerfil = parseInt($("#perfil").val());
+
+        if ($("#tipo").val() != "")
+            JsonRequest.aIdPerfil = parseInt($("#tipo").val());
 
         if ($("#motivo").val() != "")
             JsonRequest.aIdMotivo = parseInt($("#motivo").val());
@@ -93,8 +95,20 @@ function CreateGrid(data) {
             filterable: false
         },
         height: 250,
-        editable: "incell",
-        pageable: true,
+        editable: false,
+        pageable: {
+            refresh: false,
+            pageSize: 5,
+            pageSizes: [10, 20, 30, 50],
+            buttonCount: 5,
+            messages: {
+                itemsPerPage: "Items por pagina",
+                first: "Principio",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Ultimo",
+            }
+        },
         sortable: true,
         navigatable: true,
         resizable: true,
@@ -103,7 +117,7 @@ function CreateGrid(data) {
         //groupable: true,
         filterable: true,
         //dataBound: onDataBound,
-        //toolbar: ["excel", "pdf", "search"],
+        toolbar: "<button class='k-button' onclick='Nuevo()'>Nuevo Catalogo</button>",
         columns: [
             {
                 field: "Asunto",
@@ -113,7 +127,7 @@ function CreateGrid(data) {
             {
                 name: "",
                 template: function myfunction(data) {
-                    return "<button onclick='Ver(" + data.Id + ")'>Ver</button> <button onclick='editar(" + data.Id + ")'>Editar</button> <button onclick='Eliminar(" + data.Id +")'>Eliminar</button>";
+                    return "<button class='btn btn-normal' onclick='Ver(" + data.Id + ")'>Ver</button> <button class='btn btn-warning' onclick='editar(" + data.Id + ")'>Editar</button> <button class='btn btn-danger' onclick='Eliminar(" + data.Id +")'>Eliminar</button>";
                 }
             },
         ],
@@ -123,15 +137,42 @@ function CreateGrid(data) {
     });
 }
 
+function Nuevo() {    
+    $("#IdProceso").val(0);
+    $("#Asunto").val("");
+    document.getElementById("TitleCat").innerText = "Crear Proceso";
+    DisplayModal("myModalForm");
+}
+
+function DisplayModal(ModalName) {
+
+    document.getElementById("btnGuardar").disabled = false;
+
+    var modal = document.getElementById(ModalName);
+    modal.style.display = "block";
+
+    var span = document.getElementsByClassName("close_" + ModalName)[0];
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    if (span != undefined) {
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    }    
+}
+
 function Ver(idProceso) {
-    var data = $('#grid').data("kendoGrid").dataSource.data();
-    data = data.find(function (data) {
-        return data.Id == idProceso;
-    });
-    $("#IdProceso").val(data.Id);
-    $("#Asunto").val(data.Asunto);
-    document.getElementById("Asunto").disabled = true;
-    document.getElementById("btnGuardar").disabled = true;
+    
+    Buscar("/Asistente/Archivos/", { aIdProceso: idProceso }, function (data) {
+        data.forEach(function myfunction(archivo) {
+            viewPdf(window.location.origin.replace("#", "") + "/Content/Temp/" + archivo.NameFile, idProceso);
+        });
+    });   
 }
 
 function editar(idProceso) {    
@@ -141,21 +182,29 @@ function editar(idProceso) {
     });
     $("#IdProceso").val(data.Id);
     $("#Asunto").val(data.Asunto);
-
+    
     document.getElementById("liarchivos").innerHTML = "";
     Buscar("/Asistente/Archivos/", { aIdProceso: data.Id }, function (data) {
         data.forEach(function myfunction(archivo) {
-            $("#liarchivos").append('<li><a href="#" onclick=viewPdf("' + (window.location.href.replace("#","")) + "Content/Temp/" + archivo.NameFile + '")>' + archivo.NameFile + '</a></li>');            
+            let item = "<li><a href='#' onclick=viewPdf('" + (window.location.origin.replace("#", "")) + '/Content/Temp/' + archivo.NameFile + "','" + archivo.IdProceso + "');>" + archivo.NameFile + "</a></li>";
+            $("#liarchivos").append(item);            
         });
     });
 
-    document.getElementById("Asunto").disabled = false;
-    document.getElementById("btnGuardar").disabled = false;
+    document.getElementById("TitleCat").innerText = "Editar Proceso";
+
+    DisplayModal("myModalForm");
 }
 
-function viewPdf(urlPDF) {
-    PDFObject.embed(urlPDF, "#pdfRenderer");
-    document.getElementById("pdfviewer").style.display = "block";
+function viewPdf(urlPDF, idProceso) {
+    if (urlPDF.indexOf("pdf") > -1) 
+        PDFObject.embed(urlPDF, "#pdfRenderer");  
+    else    
+        document.getElementById("pdfRenderer").innerHTML = '<img src="' + urlPDF +'" style="width: 100%;" alt="Flowers in Chania"/>';
+
+    Buscar("/Asistente/AddClicks/", { "aIdPrceso": parseInt(idProceso) }, function (data) { });
+
+    DisplayModal("myModalViewer");
 }
 
 function Eliminar(idProceso) {
@@ -182,6 +231,7 @@ function Guardar() {
     jsonRequest.IdProceso = idProceso;
     jsonRequest.Asunto = $("#Asunto").val();
     jsonRequest.IdCampania = $("#campaña").val() != "" ? parseInt($("#campaña").val()) : null;
+    jsonRequest.IdTipo = $("#tipo").val() != "" ? parseInt($("#tipo").val()) : null;
     jsonRequest.IdPerfil = $("#perfil").val() != "" ? parseInt($("#perfil").val()) : null;
     jsonRequest.IdMotivo = $("#motivo").val() != "" ? parseInt($("#motivo").val()) : null;
     jsonRequest.IdSubMotivo = $("#submotivo").val() != "" ? parseInt($("#submotivo").val()) : null;
@@ -199,19 +249,12 @@ function Guardar() {
 
         });
     else {
-        if (document.querySelectorAll("#liarchivos li").length > 0 && files.length != 0) {
-            Save("/Asistente/Edit/", jsonRequest, function (data) {
-                UploadFile(data);
-                FindProcesos();
-            });
-        } else {
-            swal("Carga un archivo para guardar");
-            return;
-        }
+        Save("/Asistente/Edit/", jsonRequest, function (data) {
+            UploadFile(data);
+            FindProcesos();
+        });
     }
-        
-
-
+    
     Limpiar();
 }
 
@@ -237,8 +280,10 @@ function UploadFile(data) {
             if (data.Msj == "OK") {
                 $("#DocFile").val("");
                 document.getElementById("liarchivos").innerHTML = "";
+                $("#DocFile").val("");
             } else {
                 alert("Hubo un error, Intenta nuevamente");
+                $("#DocFile").val("");
             }
         },
         error: function (err) {
@@ -251,8 +296,7 @@ function Limpiar() {
     $("#IdProceso").val("");
     $("#Asunto").val("");
     document.getElementById("liarchivos").innerHTML = "";
-    $("#DocFile").val("");
-    document.getElementById("pdfviewer").style.display = "none";
+    document.getElementById("myModalForm").style.display = "none";   
 }
 
 function LimpiarTodo() {

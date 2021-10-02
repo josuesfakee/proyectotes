@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AsistenteController.cs" />
+    <Compile Include="Controllers\CatalogosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -445,6 +446,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Kendo\kendo.all.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Modulos\Catalogos.js" />
     <Content Include="Scripts\Modulos\procesos.js" />
     <Content Include="Scripts\utils\Chart\Chart.js" />
     <Content Include="Scripts\utils\Chart\Chart.min.js" />
@@ -485,6 +487,7 @@
     <Content Include="Views\Asistente\PartialViews\_PartialFiltros.cshtml" />
     <Content Include="Views\Asistente\PartialViews\_PartialGridProcesos.cshtml" />
     <Content Include="Views\Asistente\PartialViews\_PartialProceso.cshtml" />
+    <Content Include="Views\Catalogos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
