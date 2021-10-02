@@ -137,11 +137,16 @@ function CreateGrid(data) {
     });
 }
 
-function Nuevo() {    
-    $("#IdProceso").val(0);
-    $("#Asunto").val("");
-    document.getElementById("TitleCat").innerText = "Crear Proceso";
-    DisplayModal("myModalForm");
+function Nuevo() {
+    let idCampania = parseInt(($("#campaña").val() == "") ? 0 : $("#campaña").val());
+    if (idCampania) {
+        $("#IdProceso").val(0);
+        $("#Asunto").val("");
+        document.getElementById("TitleCat").innerText = "Crear Proceso";
+        DisplayModal("myModalForm");
+    } else {
+        alert("Elija una campaña para poder crear un proceso");
+    }
 }
 
 function DisplayModal(ModalName) {
