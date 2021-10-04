@@ -132,19 +132,22 @@ function Editar(Id) {
 function DisplayModal() {
     var modal = document.getElementById("myModal");
     modal.style.display = "block";
-    
+
+    var span = document.getElementsByClassName("close")[0];
+
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
- 
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
 }
 
 function Guardar() {
     let idCatalogo = parseInt(($("#catalogo").val() == "") ? "0" : $("#catalogo").val());
-    let idItem = $("#FieldId").val();
-    Save("/Catalogos/Create/", { "Id": idItem, "IdCatalogo": idCatalogo, "Descripcion": $("#FieldDescirpcion").val(), "Estatus": true }, function (data) {
+    Save("/Catalogos/Create/", { "Id": idCatalogo, "IdCatalogo": idCatalogo, "Descripcion": $("#FieldDescirpcion").val(), "Estatus": true }, function (data) {
         FindProcesos();
         $("#FieldDescirpcion").val("");
         $("#FieldId").val("0");
