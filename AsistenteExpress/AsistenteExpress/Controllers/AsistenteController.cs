@@ -227,7 +227,7 @@ namespace AsistenteExpress.Controllers
             }
         }
 
-        public ActionResult CreateNotificacion()
+        public ActionResult Notificacion()
         {
             return View();
         }

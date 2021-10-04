@@ -62,16 +62,9 @@
 
         </td>
         <td style="text-align:center;">
-            <button type="button" id="btnNuevo" class="btn btn-info" onclick="Guardar();">
 
-                Cargar
-            </button>
         </td>
         <td style="text-align:center;">
-            <button type="button" id="btnNuevo" class="btn btn-info"
-                    onclick="location.href='@Url.Action("Detail_CargaFolios", "Banorte")'">
-                Ver
-            </button>
         </td>
     </tr>
     <tr>
@@ -81,13 +74,36 @@
     </tr>
     <tr>
         <td>
-            <input id="datetimepicker" title="datetimepicker" style="width: 100%;" />
+            <input id="FIni" title="datetimepicker" style="width: 100%;" />
         </td>
         <td>
             <span style="max-width:100%;min-width:100%;"></span>
         </td>
         <td>
-            <center><input id="date" style="width:50%;" /></center>
+            <center><input id="FFin" style="width:42%;" /></center>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>
+                <button style="margin-left:75%;" type="button" id="btnNuevo" class="btn btn-info" onclick="GuardarNotificacion();">
+                    Cargar
+                </button>            
         </td>
     </tr>
 </table>
+<script>
+    function GuardarNotificacion() {
+        var FI = $("#FIni").val();
+        var FF = $("#FFin").val();
+
+        if (FI >= FF) {
+            alert('OK')
+        } else {
+            alert('NO')
+        }
+
+
+    }
+</script>

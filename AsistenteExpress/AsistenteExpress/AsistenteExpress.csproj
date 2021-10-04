@@ -485,6 +485,7 @@
     <Content Include="Views\Asistente\PartialViews\_PartialFiltros.cshtml" />
     <Content Include="Views\Asistente\PartialViews\_PartialGridProcesos.cshtml" />
     <Content Include="Views\Asistente\PartialViews\_PartialProceso.cshtml" />
+    <Content Include="Views\Asistente\PartialViews\_PartialNotificacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

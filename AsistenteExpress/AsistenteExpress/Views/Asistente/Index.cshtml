@@ -108,12 +108,22 @@
 <script>
     $(document).ready(function () {
         // create DateTimePicker from input HTML element
-
-        $("#datetimepicker").kendoDateTimePicker({
+        $("#FIni").kendoDateTimePicker({
             value: "",
-            dateInput: true
+            dateInput: true,
+            format: 'dd/MM/yyyy hh:mm tt'
         });
-        $("#datetimepicker").val('');
-        $("#date").kendoDatePicker();
+        $("#FIni").val('');
+        $("#FFin").kendoDatePicker({
+            format: 'dd/MM/yyyy'
+        });
+        $("#FFin").bind("focus", function () {
+            $(this).data("kendoDatePicker").open();
+        });
+
+        $("#FIni").bind("focus", function () {
+            $(this).data("kendoDateTimePicker").open();
+        });
     });
+
 </script>

@@ -24,6 +24,9 @@ namespace AsistenteExpress.Models
         public DbSet<Perfiles> Perfiles { get; set; }
         public DbSet<Submotivos> Submotivos { get; set; }
         public DbSet<Procesos> Procesos { get; set; }
+        public DbSet<Notificaciones> Notificaciones { get; set; }
+        public DbSet<FilesNotificaciones> FilesNotificaciones { get; set; }
+        public DbSet<RelUsersNotificaciones> RelUsersNotificaciones { get; set; }
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -79,5 +82,39 @@ namespace AsistenteExpress.Models
         public bool Estatus { get; set; }
     }
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    public class Notificaciones
+    {
+        [Key] public int Id { get; set; }
+        public string Asunto { get; set; }
+        public string Comentario { get; set; }
+        public DateTime? FHInicial { get; set; }
+        public DateTime? FFinal { get; set; }
+        public DateTime? FRegistro { get; set; }
+        public string Usuario { get; set; }
+        public bool? Estatus { get; set; }
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    public class FilesNotificaciones
+    {
+        [Key] public int Id { get; set; }
+        public int IdNotificacion { get; set; }
+        public string Usuario { get; set; }
+        public string NameFile { get; set; }
+        public string ruta { get; set; }
+        public string typeFile { get; set; }
+        public DateTime? FechaCarga { get; set; }
+        public bool Estatus { get; set; }
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    public class RelUsersNotificaciones
+    {
+        [Key] public int Id { get; set; }
+        public int IdNotificacion { get; set; }
+        public string Usuario { get; set; }
+        public bool IsNotificado { get; set; }
+        public DateTime? FRegistro { get; set; }
+        public bool Estatus { get; set; }
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 }
-    //==================================================================================================================
+//==================================================================================================================
