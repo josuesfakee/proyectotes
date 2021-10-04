@@ -1,7 +1,7 @@
 USE [AsistentExpress]
 GO
 
-/****** Object:  Table [dbo].[Perfiles]    Script Date: 27/09/2021 01:46:48 a. m. ******/
+/****** Object:  Table [dbo].[Perfiles]    Script Date: 01/10/2021 11:14:22 p. m. ******/
 SET ANSI_NULLS ON
 GO
 
@@ -18,4 +18,5 @@ CREATE TABLE [dbo].[Perfiles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+
 

@@ -29,30 +29,39 @@ namespace AsistenteExpress.Controllers
                     Selected = false
                 };
             });
-            proceso.Perfiles = _con.Perfiles.Where(x => x.Estatus).ToList().ConvertAll(Campaña =>
+            proceso.Tipos = _con.Tipos.Where(x => x.Estatus).ToList().ConvertAll(Tipos =>
             {
                 return new SelectListItem()
                 {
-                    Text = Campaña.Descripcion.ToString(),
-                    Value = Campaña.Id.ToString(),
+                    Text = Tipos.Descripcion.ToString(),
+                    Value = Tipos.Id.ToString(),
                     Selected = false
                 };
             });
-            proceso.Motivos = _con.Motivos.Where(x => x.Estatus).ToList().ConvertAll(Campaña =>
+            proceso.Perfiles = _con.Perfiles.Where(x => x.Estatus).ToList().ConvertAll(Perfiles =>
             {
                 return new SelectListItem()
                 {
-                    Text = Campaña.Descripcion.ToString(),
-                    Value = Campaña.Id.ToString(),
+                    Text = Perfiles.Descripcion.ToString(),
+                    Value = Perfiles.Id.ToString(),
                     Selected = false
                 };
             });
-            proceso.SubMotivos = _con.Submotivos.Where(x => x.Estatus).ToList().ConvertAll(Campaña =>
+            proceso.Motivos = _con.Motivos.Where(x => x.Estatus).ToList().ConvertAll(Motivos =>
             {
                 return new SelectListItem()
                 {
-                    Text = Campaña.Descripcion.ToString(),
-                    Value = Campaña.Id.ToString(),
+                    Text = Motivos.Descripcion.ToString(),
+                    Value = Motivos.Id.ToString(),
+                    Selected = false
+                };
+            });
+            proceso.SubMotivos = _con.Submotivos.Where(x => x.Estatus).ToList().ConvertAll(Submotivos =>
+            {
+                return new SelectListItem()
+                {
+                    Text = Submotivos.Descripcion.ToString(),
+                    Value = Submotivos.Id.ToString(),
                     Selected = false
                 };
             });
@@ -60,8 +69,37 @@ namespace AsistenteExpress.Controllers
         }
 
         // GET: Asistente/Procesos/5
-        public ActionResult Procesos(int aIdCampania, int? aIdPerfil = null, int? aIdMotivo = null, int? aIdSubMotivos = null)
-        => Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);
+        public ActionResult Procesos(int aIdCampania, int? aIdPerfil = null, int? aIdTipo = null, int? aIdMotivo = null, int? aIdSubMotivos = null)
+        => Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdTipo == aIdTipo && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);
+
+        public ActionResult AddClicks(int aIdPrceso)
+        {
+            try
+            {
+                Clicks click = _con.Clicks.Where(x => x.IdProceso == aIdPrceso).SingleOrDefault();
+                if (click != null)
+                {
+                    click.IdProceso = aIdPrceso;
+                    click.Count += 1;
+                }
+                else
+                {
+                    click = new Clicks();
+                    click.IdProceso = aIdPrceso;
+                    click.Count = _con.Clicks.ToList().Count + 1;
+                    click.Estatus = true;
+                    _con.Clicks.Add(click);
+                }
+                _con.SaveChanges();
+                return Json("OK", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+        }
 
 
         public ActionResult Archivos(int aIdProceso)
@@ -85,6 +123,7 @@ namespace AsistenteExpress.Controllers
                 procesoN.Asunto = Model.Asunto;
                 procesoN.IdCampaña = Model.IdCampania;
                 procesoN.IdPerfil = Model.IdPerfil;
+                procesoN.IdTipo = Model.IdTipo;
                 procesoN.IdMotivo = Model.IdMotivo;
                 procesoN.IdSubMotivo = Model.IdSubMotivo;
                 procesoN.Estatus = true;
@@ -99,12 +138,12 @@ namespace AsistenteExpress.Controllers
         }
 
         // GET: Asistente/Edit/5
-        public ActionResult Edit(int aIdProceso, string aNombreProceso, int aIdCampania, int? aIdPerfil = null, int? aIdMotivo = null, int? aIdSubMotivos = null)
+        public ActionResult Edit(int aIdProceso, string aNombreProceso, int aIdCampania, int? aIdPerfil = null, int? aIdTipo = null, int? aIdMotivo = null, int? aIdSubMotivos = null)
         {
             Procesos proceso = _con.Procesos.Where(x => x.Id == aIdProceso).SingleOrDefault();
             proceso.Asunto = aNombreProceso;
             _con.SaveChanges();
-            return Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);
+            return Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdTipo == aIdTipo && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);
         }
 
         // POST: Asistente/Edit/
@@ -116,6 +155,7 @@ namespace AsistenteExpress.Controllers
                 Procesos proceso = _con.Procesos.Where(x => x.Id == Model.IdProceso).SingleOrDefault();
                 proceso.Asunto = Model.Asunto;
                 proceso.IdCampaña = Model.IdCampania;
+                proceso.IdPerfil = Model.IdPerfil;
                 proceso.IdPerfil = Model.IdPerfil;
                 proceso.IdMotivo = Model.IdMotivo;
                 proceso.IdSubMotivo = Model.IdSubMotivo;
@@ -130,7 +170,7 @@ namespace AsistenteExpress.Controllers
         }
 
         // GET: Asistente/Delete/5
-        public ActionResult Delete(int aIdProceso, int aIdCampania, int? aIdPerfil = null, int? aIdMotivo = null, int? aIdSubMotivos = null)
+        public ActionResult Delete(int aIdProceso, int aIdCampania, int? aIdPerfil = null, int? aIdTipo = null, int? aIdMotivo = null, int? aIdSubMotivos = null)
         {
             Procesos proceso = _con.Procesos.Where(x => x.Id == aIdProceso).SingleOrDefault();
             if (proceso.Estatus)
@@ -138,23 +178,7 @@ namespace AsistenteExpress.Controllers
                 proceso.Estatus = false;
                 _con.SaveChanges();
             }
-            return Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);
-        }
-
-        // POST: Asistente/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return Json(_con.Procesos.Where(x => x.Estatus && x.IdCampaña == aIdCampania && x.IdPerfil == aIdPerfil && x.IdTipo == aIdTipo && x.IdMotivo == aIdMotivo && x.IdSubMotivo == aIdSubMotivos).ToList(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult UploadFile(int IdProceso)
@@ -162,7 +186,7 @@ namespace AsistenteExpress.Controllers
             try
             {
                 if (Request.Files.Count > 0)
-                {                    
+                {
                     List<int> NumSolucion_img = new List<int>();
                     var lst_imgName = Request.Files.AllKeys;
                     for (int j = 0; j < lst_imgName.Count(); j++)
@@ -174,7 +198,7 @@ namespace AsistenteExpress.Controllers
                     {
                         int position = NumSolucion_img[j];
                         var files = Request.Files[j];
-                        var fileName = Path.GetFileName(files.FileName);
+                        var fileName = Path.GetFileName(files.FileName).Replace(" ", "_");
 
                         List<Archivos> liArchivos = _con.Archivos.Where(x => x.Estatus && x.IdProceso == IdProceso).ToList();
 
@@ -183,14 +207,14 @@ namespace AsistenteExpress.Controllers
                             foreach (Archivos item in liArchivos)
                             {
                                 item.Estatus = false;
-                                if (System.IO.File.Exists(item.ruta))                                
-                                    System.IO.File.Delete(item.ruta);                                
+                                if (System.IO.File.Exists(item.ruta))
+                                    System.IO.File.Delete(item.ruta);
                             }
                             _con.SaveChanges();
                         }
 
-                        if (!Directory.Exists(Server.MapPath("~/App_Data/Documentos Subidos")))                        
-                            Directory.CreateDirectory(Server.MapPath("~/Content/Temp"));                        
+                        if (!Directory.Exists(Server.MapPath("~/App_Data/Documentos Subidos")))
+                            Directory.CreateDirectory(Server.MapPath("~/Content/Temp"));
 
                         var path = Path.Combine(Server.MapPath("~/Content/Temp"), fileName);
 
@@ -221,9 +245,9 @@ namespace AsistenteExpress.Controllers
                 return Json(new { Msj = "OK" });
                 //
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return Json(new { Msj = "Error", ExceptionMsg = e.Message});
+                return Json(new { Msj = "Error", ExceptionMsg = e.Message });
             }
         }
 

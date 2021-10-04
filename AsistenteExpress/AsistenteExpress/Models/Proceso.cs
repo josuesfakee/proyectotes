@@ -14,6 +14,8 @@ namespace AsistenteExpress.Models
         public int IdCampania { get; set; }
         public List<SelectListItem> Perfiles { get; set; }
         public int? IdPerfil { get; set; }
+        public List<SelectListItem> Tipos { get; set; }
+        public int? IdTipo { get; set; }
         public List<SelectListItem> Motivos { get; set; }
         public int? IdMotivo { get; set; }
         public List<SelectListItem> SubMotivos { get; set; }

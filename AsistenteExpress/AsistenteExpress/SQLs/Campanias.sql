@@ -1,7 +1,7 @@
 USE [AsistentExpress]
 GO
 
-/****** Object:  Table [dbo].[Campanias]    Script Date: 27/09/2021 01:46:11 a. m. ******/
+/****** Object:  Table [dbo].[Campanias]    Script Date: 01/10/2021 11:13:33 p. m. ******/
 SET ANSI_NULLS ON
 GO
 

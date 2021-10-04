@@ -23,6 +23,15 @@
             </div>
             <div class="col-md-3">
                 <div class="col-md-4 espacio">
+                    <label>Tipos:</label>
+                </div>
+                <div class="col-md-11 espacio">
+                    @Html.DropDownListFor(m => m.Tipos, new SelectList(Model.Tipos, "Value", "Text"), "-SELECCIONE-",
+                    new { @class = "form-control", @id = "tipo", @onchange = "FindProcesos()" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-4 espacio">
                     <label>Motivos:</label>
                 </div>
                 <div class="col-md-11 espacio">
